@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Image to Word Converter - Stylish & Free</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f4ff, #d9e6ff);
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      background: #3563e9;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 8px rgb(53 99 233 / 0.3);
+      color: white;
+      font-weight: 600;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    main {
+      max-width: 700px;
+      width: 95%;
+      background: white;
+      margin: 2rem 0;
+      padding: 2rem 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgb(0 0 0 / 0.1);
+      text-align: center;
+    }
+    h1 {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+    p.subtitle {
+      color: #4b5563;
+      margin-bottom: 2rem;
+      font-size: 1.125rem;
+    }
+    input[type="file"] {
+      width: 100%;
+      padding: 1rem;
+      border: 2px dashed #a5b4fc;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+    input[type="file"]:hover {
+      border-color: #4338ca;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.125rem;
+      background: #4338ca;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 8px 16px rgb(67 56 202 / 0.4);
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #312e81;
+    }
+    #status {
+      margin-top: 1.5rem;
+      font-weight: 500;
+      color: #374151;
+      min-height: 1.5em;
+    }
+    .adsense-wrapper {
+      margin-top: 3rem;
+      max-width: 700px;
+      width: 100%;
+    }
+  </style>
+
+  <!-- Google AdSense Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7550212696162488"
+    crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <header>
+    Image to Word Converter
+  </header>
+
+  <main>
+    <h1>Convert Your Images to Word Documents</h1>
+    <p class="subtitle">Upload 1 to 40 images and get a DOCX file with separate pages for each image’s text.</p>
+
+    <input type="file" id="imageUpload" multiple accept="image/*" />
+    <button onclick="convertImagesToWord()">Convert & Download DOCX</button>
+
+    <div id="status"></div>
+
+    <div class="adsense-wrapper">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-format="fluid"
+           data-ad-layout-key="-6t+ed+2i-1n-4w"
+           data-ad-client="ca-pub-7550212696162488"
+           data-ad-slot="1046984247"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </main>
+
+  <!-- OCR & DOCX Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.3.0/docx.umd.js"></script>
+
+  <script>
+    async function convertImagesToWord() {
+      const input = document.getElementById('imageUpload');
+      const files = input.files;
+      const status = document.getElementById('status');
+
+      if (files.length < 1 || files.length > 40) {
+        alert('Please upload between 1 and 40 images.');
+        return;
+      }
+
+      status.textContent = "📸 Extracting text from images...";
+
+      const { Document, Packer, Paragraph, TextRun } = window.docx;
+      const doc = new Document();
+
+      for (let i = 0; i < files.length; i++) {
+        status.textContent = `🔍 Processing image ${i + 1} of ${files.length}...`;
+
+        const file = files[i];
+        const dataURL = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+
+        const result = await Tesseract.recognize(dataURL, 'eng', {
+          logger: m => console.log(m)
+        });
+
+        const text = result.data.text || '';
+
+        const paragraphs = text.split('\n').map(line => new Paragraph({
+          children: [
+            new TextRun({
+              text: line,
+              font: "Times New Roman",
+              size: 24 // 12pt in half points
+            })
+          ]
+        }));
+
+        doc.addSection({
+          properties: {
+            page: {
+              size: { width: 11906, height: 16838 }, // A4 in twips
+              margin: { top: 1440, bottom: 1440, left: 1440, right: 1440 },
+            }
+          },
+          children: [
+            ...paragraphs,
+            ...(i < files.length - 1 ? [new Paragraph({ children: [], pageBreakBefore: true })] : [])
+          ]
+        });
+      }
+
+      status.textContent = "📄 Generating your Word file...";
+
+      const blob = await Packer.toBlob(doc);
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'converted.docx';
+      link.click();
+
+      status.textContent = "✅ Download complete!";
+    }
+  </script>
+
+</body>
+</html>
