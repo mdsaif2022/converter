@@ -1,195 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Image to Word Converter - Stylish & Free</title>
+  <title>My Multi-Tools Hub</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
-      margin: 0; padding: 0;
+      margin: 0;
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #f0f4ff, #d9e6ff);
-      color: #222;
+      background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+      color: #1e293b;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 20px;
     }
     header {
       width: 100%;
-      background: #3563e9;
+      background: #0ea5e9;
       padding: 1rem 2rem;
-      box-shadow: 0 4px 8px rgb(53 99 233 / 0.3);
+      box-shadow: 0 4px 15px rgb(14 165 233 / 0.5);
       color: white;
-      font-weight: 600;
-      font-size: 1.5rem;
+      font-weight: 700;
+      font-size: 1.75rem;
       text-align: center;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      user-select: none;
     }
     main {
-      max-width: 700px;
-      width: 95%;
-      background: white;
-      margin: 2rem 0;
-      padding: 2rem 2.5rem;
-      border-radius: 15px;
-      box-shadow: 0 12px 24px rgb(0 0 0 / 0.1);
-      text-align: center;
-    }
-    h1 {
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: #1f2937;
-    }
-    p.subtitle {
-      color: #4b5563;
-      margin-bottom: 2rem;
-      font-size: 1.125rem;
-    }
-    input[type="file"] {
+      max-width: 900px;
       width: 100%;
-      padding: 1rem;
-      border: 2px dashed #a5b4fc;
-      border-radius: 12px;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 20px;
+    }
+    .tool-card {
+      background: white;
+      padding: 1.8rem 1.5rem;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgb(0 0 0 / 0.12);
       cursor: pointer;
-      transition: border-color 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    input[type="file"]:hover {
-      border-color: #4338ca;
+    .tool-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 18px 40px rgb(0 0 0 / 0.18);
     }
-    button {
-      margin-top: 2rem;
-      padding: 1rem 2.5rem;
-      font-size: 1.125rem;
-      background: #4338ca;
+    .tool-icon {
+      font-size: 3.5rem;
+      color: #0ea5e9;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+    .tool-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+    .tool-desc {
+      font-size: 0.95rem;
+      color: #475569;
+      flex-grow: 1;
+      user-select: none;
+    }
+    footer {
+      margin-top: 50px;
+      font-size: 0.9rem;
+      color: #64748b;
+      user-select: none;
+    }
+    /* Button style inside tool card if needed */
+    .tool-card a {
+      margin-top: 1rem;
+      display: inline-block;
+      background: #0ea5e9;
       color: white;
-      border: none;
+      text-decoration: none;
+      padding: 8px 18px;
       border-radius: 12px;
-      cursor: pointer;
       font-weight: 600;
-      box-shadow: 0 8px 16px rgb(67 56 202 / 0.4);
       transition: background-color 0.3s ease;
     }
-    button:hover {
-      background: #312e81;
+    .tool-card a:hover {
+      background: #0284c7;
     }
-    #status {
-      margin-top: 1.5rem;
-      font-weight: 500;
-      color: #374151;
-      min-height: 1.5em;
-    }
-    .adsense-wrapper {
-      margin-top: 3rem;
-      max-width: 700px;
-      width: 100%;
+
+    /* Responsive for small devices */
+    @media (max-width: 480px) {
+      header {
+        font-size: 1.5rem;
+      }
+      .tool-icon {
+        font-size: 3rem;
+      }
     }
   </style>
 
-  <!-- Google AdSense Script -->
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7550212696162488"
     crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <header>
-    Image to Word Converter
-  </header>
+<header>My Multi-Tools Hub</header>
 
-  <main>
-    <h1>Convert Your Images to Word Documents</h1>
-    <p class="subtitle">Upload 1 to 40 images and get a DOCX file with separate pages for each image’s text.</p>
-
-    <input type="file" id="imageUpload" multiple accept="image/*" />
-    <button onclick="convertImagesToWord()">Convert & Download DOCX</button>
-
-    <div id="status"></div>
-
-    <div class="adsense-wrapper">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-format="fluid"
-           data-ad-layout-key="-6t+ed+2i-1n-4w"
-           data-ad-client="ca-pub-7550212696162488"
-           data-ad-slot="1046984247"></ins>
-      <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+<main>
+  <div class="tools-grid">
+    <div class="tool-card" onclick="location.href='image-to-word.html'">
+      <div class="tool-icon">🖼️</div>
+      <div class="tool-title">Image to Word Converter</div>
+      <div class="tool-desc">Convert images to editable Word documents with real typing effect, supporting up to 40 images.</div>
+      <a href="image-to-word.html" tabindex="-1">Open Tool</a>
     </div>
-  </main>
 
-  <!-- OCR & DOCX Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.3.0/docx.umd.js"></script>
+    <div class="tool-card" onclick="location.href='pdf-compressor.html'">
+      <div class="tool-icon">📄</div>
+      <div class="tool-title">PDF Compressor</div>
+      <div class="tool-desc">Shrink your PDF files online easily without losing quality.</div>
+      <a href="pdf-compressor.html" tabindex="-1">Open Tool</a>
+    </div>
 
-  <script>
-    async function convertImagesToWord() {
-      const input = document.getElementById('imageUpload');
-      const files = input.files;
-      const status = document.getElementById('status');
+    <div class="tool-card" onclick="location.href='text-to-speech.html'">
+      <div class="tool-icon">🔊</div>
+      <div class="tool-title">Text to Speech</div>
+      <div class="tool-desc">Convert any text into natural sounding speech audio files.</div>
+      <a href="text-to-speech.html" tabindex="-1">Open Tool</a>
+    </div>
 
-      if (files.length < 1 || files.length > 40) {
-        alert('Please upload between 1 and 40 images.');
-        return;
-      }
+    <div class="tool-card" onclick="location.href='qr-code-generator.html'">
+      <div class="tool-icon">🔗</div>
+      <div class="tool-title">QR Code Generator</div>
+      <div class="tool-desc">Generate custom QR codes for URLs, contacts, or WiFi credentials.</div>
+      <a href="qr-code-generator.html" tabindex="-1">Open Tool</a>
+    </div>
 
-      status.textContent = "📸 Extracting text from images...";
+    <!-- আরও টুলস যোগ করতে নিচে একই ফরম্যাটে নতুন div যোগ করো -->
 
-      const { Document, Packer, Paragraph, TextRun } = window.docx;
-      const doc = new Document();
+  </div>
 
-      for (let i = 0; i < files.length; i++) {
-        status.textContent = `🔍 Processing image ${i + 1} of ${files.length}...`;
+  <!-- Google AdSense Ad Slot -->
+  <div style="margin: 40px auto; max-width: 900px; text-align: center;">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="fluid"
+         data-ad-layout-key="-6t+ed+2i-1n-4w"
+         data-ad-client="ca-pub-7550212696162488"
+         data-ad-slot="1046984247"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+</main>
 
-        const file = files[i];
-        const dataURL = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = e => resolve(e.target.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-
-        const result = await Tesseract.recognize(dataURL, 'eng', {
-          logger: m => console.log(m)
-        });
-
-        const text = result.data.text || '';
-
-        const paragraphs = text.split('\n').map(line => new Paragraph({
-          children: [
-            new TextRun({
-              text: line,
-              font: "Times New Roman",
-              size: 24 // 12pt in half points
-            })
-          ]
-        }));
-
-        doc.addSection({
-          properties: {
-            page: {
-              size: { width: 11906, height: 16838 }, // A4 in twips
-              margin: { top: 1440, bottom: 1440, left: 1440, right: 1440 },
-            }
-          },
-          children: [
-            ...paragraphs,
-            ...(i < files.length - 1 ? [new Paragraph({ children: [], pageBreakBefore: true })] : [])
-          ]
-        });
-      }
-
-      status.textContent = "📄 Generating your Word file...";
-
-      const blob = await Packer.toBlob(doc);
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'converted.docx';
-      link.click();
-
-      status.textContent = "✅ Download complete!";
-    }
-  </script>
+<footer>
+  © 2025 My Multi-Tools Hub. All rights reserved.
+</footer>
 
 </body>
 </html>
